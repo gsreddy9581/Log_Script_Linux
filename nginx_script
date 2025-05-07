@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Install nginx
+if ! command -v nginx &> /dev/null; then
+    echo "Installing Nginx..."
+    sudo apt update -y && sudo apt install nginx -y  # Use `yum` for Amazon Linux
+fi
+
+# Enable and start Nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+# Create a simple HTML page
+cat <<EOF | sudo tee /var/www/html/index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome Page</title>
+</head>
+<body>
+    <h1>Hello! Nginx is running.</h1>
+</body>
+</html>
+EOF
+
+# Restart nginx to apply changes
+sudo systemctl restart nginx
+
+echo "Nginx deployed and HTML page created successfully."
