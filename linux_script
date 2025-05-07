@@ -1,0 +1,28 @@
+==create file== 
+nano monitor.sh
+==enter below script==
+#!/bin/bash
+LOG="/var/log/resource_monitor.log"
+echo "---- $(date) ----" >> $LOG
+echo "CPU Usage:" >> $LOG
+top -bn1 | grep "Cpu(s)" >> $LOG
+echo "Memory Usage:" >> $LOG
+free -m >> $LOG
+echo "---------------------------" >> $LOG
+
+ctrl X, Y, Enter
+
+==create log file(if not exist)==
+sudo touch /var/log/resource_monitor.log
+sudo chmod 666 /var/log/resource_monitor.log
+
+==give permission==
+chmod +x monitor.sh
+==schedule with cron==
+export VISUAL=vi
+crontab -e
+==enter below script==
+0 * * * * /home/root or ec2-user/monitor.sh
+==log file location==
+/var/log/resource_monitor.log
+
